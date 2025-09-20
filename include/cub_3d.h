@@ -14,6 +14,31 @@
 # include <mlx.h>
 # include "../libft/libft.h"
 
+typedef struct s_image
+{
+	void		*img_ptr;
+	char		*pixel_data;
+	int			bpp;
+	int			endian;
+	int			line_size;
+	int			width;
+	int			height;
+	bool		has_green_screen;
+}				t_image;
+
+typedef struct s_player
+{
+	double		x;
+	double		y;
+	double		dx;
+	double		dy;
+	double		radius;
+	double		angle;
+	double		rotation_speed;
+	double		move_speed;
+	char		direction;
+}				t_player;
+
 typedef struct s_data
 {
     char    *tex_no;
@@ -32,7 +57,10 @@ typedef struct s_data
     char    player_dir;
     void    *mlx;
     void    *window;
+    t_image		*buffer;
+    t_player        	*player;
 }   t_data;
+
 
 # define ESC 65307
 # define W 119
@@ -40,9 +68,9 @@ typedef struct s_data
 # define S 115
 # define D 100
 # define CLOSE 17
-# define MAX_HEIGHT 540
-# define MAX_WIDTH 960
 # define TILE_SIZE 32
+#define WIN_WIDTH 960
+#define WIN_HEIGHT 540
         //UTILS
 int has_cub_extension(const char *filename);
 void parse_element(char *line, t_data *data);

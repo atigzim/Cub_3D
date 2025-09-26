@@ -23,21 +23,18 @@ typedef struct s_image
 	int			line_size;
 	int			width;
 	int			height;
-	bool		has_green_screen;
 }				t_image;
 
 typedef struct s_player
 {
-	double		x;
-	double		y;
-	double		dx;
-	double		dy;
-	double		radius;
-	double		angle;
-	double		rotation_speed;
-	double		move_speed;
-	char		direction;
-}				t_player;
+    double x;      // player position X
+    double y;      // player position Y
+    double dir_x;  // direction X
+    double dir_y;  // direction Y
+    double plane_x; // camera plane X
+    double plane_y; // camera plane Y
+}   t_player;
+
 
 typedef struct s_data
 {
@@ -69,8 +66,8 @@ typedef struct s_data
 # define D 100
 # define CLOSE 17
 # define TILE_SIZE 32
-#define WIN_WIDTH 960
-#define WIN_HEIGHT 540
+#define WIN_WIDTH 1500
+#define WIN_HEIGHT 800
         //UTILS
 int has_cub_extension(const char *filename);
 void parse_element(char *line, t_data *data);

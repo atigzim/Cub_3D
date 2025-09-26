@@ -44,12 +44,62 @@ void init_buffer(t_data *mlx)
 		perror("alloction not valid");
 	}
 	mlx->buffer->img_ptr = mlx_new_image(mlx->mlx, WIN_WIDTH, WIN_HEIGHT);
-	mlx->buffer->width = WIN_WIDTH;
-	mlx->buffer->height = WIN_HEIGHT;
+	mlx->buffer->width =  WIN_WIDTH;
+	mlx->buffer->height =  WIN_HEIGHT;
 	mlx->buffer->pixel_data = mlx_get_data_addr(
         mlx->buffer->img_ptr, &mlx->buffer->bpp,
         &mlx->buffer->line_size, &mlx->buffer->endian);
 }
+
+void my_mlx_pixel_put(t_image *img, int x, int y, int color)
+{
+    char *dst;
+
+    dst = img->pixel_data + (y * img->line_size + x * (img->bpp / 8));
+    *(unsigned int*)dst = color;
+}
+
+
+void draw_background(t_image *img)
+{
+	int y;
+	int i;
+
+	
+	y = 0;
+	while(y < img->height)
+	{
+		i = 0;
+		while (i < img->width)
+		{
+			if (y < img->height / 2)
+                my_mlx_pixel_put(img, i, y, 0x87CEEB);
+            else
+                my_mlx_pixel_put(img, i, y, 0x8B4513);
+			i++;
+		}
+		y++;
+	}
+}
+
+void init_player(t_data *data)
+{
+	t_player *player;
+	
+	player = data->player;
+
+	player->dir_x = 
+
+}
+
+
+int game_loop(t_data *data)
+{
+//     draw_background(data->buffer);
+    mlx_put_image_to_window(data->mlx, data->window, data->buffer->img_ptr, 0, 0);
+    return (0);
+}
+
 
 void	ft_raycastung(t_data *data)
 {
@@ -59,10 +109,11 @@ void	ft_raycastung(t_data *data)
 		//free_all;
 		return ;
 	}
-	data->window = mlx_new_window(data->mlx, data->map_width * TILE_SIZE ,
-			 data->map_height * TILE_SIZE , "Cub_3D");
+	data->window = mlx_new_window(data->mlx, WIN_WIDTH ,
+			 WIN_HEIGHT , "Cub_3D");
 	init_buffer(data);
-	mlx_hook(data->window, 2, 1L << 0, &key_press, &data);
-	mlx_hook(data->window, 17, 0, &sed, &data);
+	mlx_hook(data->window, 2, 1L << 0, key_press, data);
+	mlx_hook(data->window, 17, 0, sed, data);
+	mlx_loop_hook(data->mlx, game_loop, (t_data *) data);
 	mlx_loop(data->mlx);
 }

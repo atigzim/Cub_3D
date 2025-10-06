@@ -179,7 +179,7 @@ void check_map_chars(t_data *d)
                 d->player_x = j;
                 d->player_y = i;
                 d->player_dir = c;
-                d->map[i][j] = '0'; // replace with '0' for later movement
+                // d->map[i][j] = '0'; // replace with '0' for later movement
             }
             else if (c != '0' && c != '1' && c != ' ')
             {

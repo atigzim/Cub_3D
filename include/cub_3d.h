@@ -1,19 +1,30 @@
 #ifndef CUB_3D
 # define CUB_3D
 
+# include <math.h>
+# include <mlx.h>
 # include <ctype.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <math.h>
 # include <stdbool.h>
 # include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <mlx.h>
 # include "../libft/libft.h"
 
+
+# define ESC 65307
+# define W 119
+# define A 97
+# define S 115
+# define D 100
+# define CLOSE 17
+# define TILE_SIZE 32
+#define WIN_WIDTH 1900
+#define WIN_HEIGHT 800
+#define FOV 1.0471975512
 typedef struct s_image
 {
 	void		*img_ptr;
@@ -27,14 +38,21 @@ typedef struct s_image
 
 typedef struct s_player
 {
-    double x;      // player position X
-    double y;      // player position Y
-    double dir_x;  // direction X
-    double dir_y;  // direction Y
-    double plane_x; // camera plane X
-    double plane_y; // camera plane Y
-}   t_player;
+	double		x;
+	double		y;
+	double		dx;
+	double		dy;
+	double		radius;
+	double		angle;
+	double		rotation_speed;
+	double		move_speed;
+	char		direction;
+}				t_player;
 
+typedef struct s_ray
+{
+        
+}t_ray;
 
 typedef struct s_data
 {
@@ -59,15 +77,6 @@ typedef struct s_data
 }   t_data;
 
 
-# define ESC 65307
-# define W 119
-# define A 97
-# define S 115
-# define D 100
-# define CLOSE 17
-# define TILE_SIZE 32
-#define WIN_WIDTH 1500
-#define WIN_HEIGHT 800
         //UTILS
 int has_cub_extension(const char *filename);
 void parse_element(char *line, t_data *data);

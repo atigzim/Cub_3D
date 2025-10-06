@@ -58,28 +58,46 @@ void my_mlx_pixel_put(t_image *img, int x, int y, int color)
     dst = img->pixel_data + (y * img->line_size + x * (img->bpp / 8));
     *(unsigned int*)dst = color;
 }
-
-
-void draw_background(t_image *img)
+void draw_block(t_image *img, int x, int y, int cool)
 {
+	int i;
+	int j ;
+
+	j = x;
+	while (j < x + TILE_SIZE)
+	{
+		i = y;
+		while (i < y + TILE_SIZE)
+		{
+			my_mlx_pixel_put(img, j, i, cool);
+			i++;
+		}
+		j++;
+	}
+}
+
+void draw_background(t_data *data)
+{
+	t_image *img;
 	int y;
 	int i;
 
-	
-	y = 0;
-	while(y < img->height)
+	i = 0;
+	img = data->buffer;
+	while(data->map[i])
 	{
-		i = 0;
-		while (i < img->width)
+		y = 0;
+		while(data->map[i][y])
 		{
-			if (y < img->height / 2)
-                my_mlx_pixel_put(img, i, y, 0x87CEEB);
-            else
-                my_mlx_pixel_put(img, i, y, 0x8B4513);
-			i++;
+			if(data->map[i][y] == '1')
+				draw_block(img, y * TILE_SIZE, i * TILE_SIZE, 0xFF0000);
+			else if(data->map[i][y] != '0' && data->map[i][y] != '1')
+				draw_block(img, y * TILE_SIZE, i * TILE_SIZE, 0x00FF00);
+			y++;
 		}
-		y++;
+		i++;
 	}
+	
 }
 
 void init_player(t_data *data)
@@ -87,15 +105,24 @@ void init_player(t_data *data)
 	t_player *player;
 	
 	player = data->player;
-
-	player->dir_x = 
-
+	player = malloc(sizeof(t_player));
+	ft_bzero(player, sizeof(t_player));
+	player->move_speed = 3;
+	player->rotation_speed = 0.09;
+	if (data->player_dir == 'N')
+		player->angle = -M_PI / 2;
+	else if (data->player_dir == 'S')
+		player->angle = M_PI / 2;
+	else if (data->player_dir == 'W')
+		player->angle = M_PI;
+	else
+		player->angle = 0;
 }
 
 
 int game_loop(t_data *data)
 {
-//     draw_background(data->buffer);
+    draw_background(data);
     mlx_put_image_to_window(data->mlx, data->window, data->buffer->img_ptr, 0, 0);
     return (0);
 }
@@ -112,6 +139,7 @@ void	ft_raycastung(t_data *data)
 	data->window = mlx_new_window(data->mlx, WIN_WIDTH ,
 			 WIN_HEIGHT , "Cub_3D");
 	init_buffer(data);
+	init_player(data);
 	mlx_hook(data->window, 2, 1L << 0, key_press, data);
 	mlx_hook(data->window, 17, 0, sed, data);
 	mlx_loop_hook(data->mlx, game_loop, (t_data *) data);

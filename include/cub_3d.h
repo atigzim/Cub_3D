@@ -51,7 +51,9 @@ typedef struct s_player
 
 typedef struct s_ray
 {
-        
+     double             ray_angel;
+     double             ray_dx;  
+     double             ray_dy;
 }t_ray;
 
 typedef struct s_data
@@ -74,6 +76,7 @@ typedef struct s_data
     void    *window;
     t_image		*buffer;
     t_player        	*player;
+    t_ray               *ray;
 }   t_data;
 
 

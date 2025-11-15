@@ -7,7 +7,7 @@ SRCS = srcs/parse.c srcs/parse_utils.c raycasting/raycasting.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT = libft/libft.a
-MLX = -Lmlx -lmlx -lX11 -lXext
+MLX = -lmlx -lXext -lX11 -lm #-Lmlx -lmlx -lX11 -lXext
 
 all: $(NAME)
 

@@ -1,8 +1,8 @@
 #ifndef CUB_3D
 # define CUB_3D
 
-# include <math.h>
 # include <mlx.h>
+# include <math.h>
 # include <ctype.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -51,7 +51,7 @@ typedef struct s_player
 
 typedef struct s_ray
 {
-     double             ray_angel;
+     double             ray_angle;
      double             ray_dx;  
      double             ray_dy;
 }t_ray;

@@ -35,7 +35,7 @@ static int max_int(int a, int b)
 }
 
 
-void add_map_line(t_data *data, char *line)
+void add_map_line(t_data *data,)
 {
     char **new_map;
     int i;

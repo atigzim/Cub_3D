@@ -3,28 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atigzim <atigzim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:46:07 by abhmidat          #+#    #+#             */
-/*   Updated: 2025/11/28 15:23:46 by atigzim          ###   ########.fr       */
+/*   Updated: 2025/12/10 15:56:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub_3d.h"
 
-void cast_one_ray(t_data *data, int ray_index)
+void find_step_and_side_dist(t_data *data, t_ray *ray)
 {
-    t_ray *ray;
-    ray = &data->rays[ray_index];
-    
-
-   
-    ray->dx = cos(ray->ray_angle);
-    ray->dy = sin(ray->ray_angle);
-    ray->map_x = (int)(data->player.x / TILE_SIZE);
-    ray->map_y = (int)(data->player.y / TILE_SIZE);
-    ray->delta_dist_x = fabs(TILE_SIZE / ray->dx);
-    ray->delta_dist_y = fabs(TILE_SIZE / ray->dy);
     if (ray->dx < 0)
     {
         ray->step_x = -1;
@@ -45,7 +34,10 @@ void cast_one_ray(t_data *data, int ray_index)
         ray->step_y = 1;
         ray->side_dist_y = ((ray->map_y + 1) * TILE_SIZE - data->player.y) / fabs(ray->dy);
     }
+}
 
+void loob_for_wall_hit(t_data *data, t_ray *ray)
+{
     while (!ray->hit)
     {
         if (ray->side_dist_x < ray->side_dist_y)
@@ -57,7 +49,7 @@ void cast_one_ray(t_data *data, int ray_index)
         else
         {
             ray->map_y += ray->step_y;
-            ray->is_vertical_hit = 1; // FIXED: was data->rays->is_vertical_hit = 1;
+            ray->is_vertical_hit = 1;
             ray->side_dist_y += ray->delta_dist_y;
         }
         if (ray->map_y < 0 || ray->map_y >= data->map_height ||
@@ -66,8 +58,10 @@ void cast_one_ray(t_data *data, int ray_index)
         if (data->map[ray->map_y][ray->map_x] == '1')
             ray->hit = 1;
     }
+}
 
-    // Calculate perpendicular distance to wall
+void calculate_distance_to_wall(t_data *data, t_ray *ray, int ray_index)
+{
     if (ray->hit)
     {
         if (ray->is_vertical_hit == 0)
@@ -78,6 +72,22 @@ void cast_one_ray(t_data *data, int ray_index)
         ray->ray_x = data->player.x + ray->distance * ray->dx;
         ray->ray_y = data->player.y + ray->distance * ray->dy;
     }
+}
+
+void cast_one_ray(t_data *data, int ray_index)
+{
+    t_ray *ray;
+    ray = &data->rays[ray_index];
+    
+    ray->dx = cos(ray->ray_angle);
+    ray->dy = sin(ray->ray_angle);
+    ray->map_x = (int)(data->player.x / TILE_SIZE);
+    ray->map_y = (int)(data->player.y / TILE_SIZE);
+    ray->delta_dist_x = fabs(TILE_SIZE / ray->dx);
+    ray->delta_dist_y = fabs(TILE_SIZE / ray->dy);
+    find_step_and_side_dist(data, ray);
+    loob_for_wall_hit(data, ray);
+    calculate_distance_to_wall(data, ray, ray_index);
 }
 
 void render_walls(t_data *data)

@@ -170,6 +170,7 @@ void my_mlx_pixel_put(t_image *img, int x, int y, int color);
 bool xpm_valid(char *path_file);
 void parse_xpm(t_data* data);
 void pars_main(t_data *data, char *filename);
+void check_map_valid(char **map, t_data *data, int i, int j);
 //raycasting
 void grid_lines(t_data *data);
 void draw_block(t_image *img, int x, int y, int cool);

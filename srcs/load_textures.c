@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   load_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abhmidat <abhmidat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 13:02:42 by abhmidat          #+#    #+#             */
-/*   Updated: 2025/12/09 14:28:09 by abhmidat         ###   ########.fr       */
+/*   Updated: 2025/12/10 21:05:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub_3d.h"
+
+void free_texture(t_data *data)
+{
+	if (data->tex_no.img_ptr)
+		mlx_destroy_image(data->mlx, data->tex_no.img_ptr);
+	if (data->tex_so.img_ptr)
+		mlx_destroy_image(data->mlx, data->tex_so.img_ptr);
+	if (data->tex_we.img_ptr)
+		mlx_destroy_image(data->mlx, data->tex_we.img_ptr);
+	if (data->tex_ea.img_ptr)
+		mlx_destroy_image(data->mlx, data->tex_ea.img_ptr);
+}
 
 int texture_get_pixel(t_image *tex, int x, int y)
 {

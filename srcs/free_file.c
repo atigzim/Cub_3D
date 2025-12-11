@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abhmidat <abhmidat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:08:20 by atigzim           #+#    #+#             */
-/*   Updated: 2025/12/09 13:03:43 by abhmidat         ###   ########.fr       */
+/*   Updated: 2025/12/10 21:07:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@ void	free_data(t_data *data)
 		free(data->textures.west);
 	if (data->textures.east)
 		free(data->textures.east);
+	free_texture(data);
+	if (data->buffer.img_ptr)
+		mlx_destroy_image(data->mlx, data->buffer.img_ptr);
+	if (data->window)
+		mlx_destroy_window(data->mlx, data->window);
+	if (data->mlx)
+		mlx_destroy_display(data->mlx);
 	free(data);
 }
 

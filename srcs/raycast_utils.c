@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 09:46:07 by abhmidat          #+#    #+#             */
-/*   Updated: 2025/12/10 15:56:14 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/10 23:43:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,10 @@ void cast_one_ray(t_data *data, int ray_index)
     
     ray->dx = cos(ray->ray_angle);
     ray->dy = sin(ray->ray_angle);
+    if (ray->dx == 0)
+        ray->dx = 0.000001;
+    if (ray->dy == 0)
+        ray->dy = 0.000001;
     ray->map_x = (int)(data->player.x / TILE_SIZE);
     ray->map_y = (int)(data->player.y / TILE_SIZE);
     ray->delta_dist_x = fabs(TILE_SIZE / ray->dx);
@@ -92,8 +96,8 @@ void cast_one_ray(t_data *data, int ray_index)
 
 void render_walls(t_data *data)
 {
-    int i;
-    t_ray *ray;
+    int     i;
+    t_ray   *ray;
     t_walls *wall;
 
     i = 0;
@@ -101,25 +105,14 @@ void render_walls(t_data *data)
     while (i < WIN_WIDTH)
     {
         ray = &data->rays[i];
-        
-        // Calculate corrected distance (fix fisheye)
         wall->corrected_dist = ray->distance * cos(ray->ray_angle - data->player.angle);
-        
-        // Prevent division by zero
         if (wall->corrected_dist < 0.1)
             wall->corrected_dist = 0.1;
-        
-        // Calculate wall height
         wall->distance_to_plane = (WIN_WIDTH / 2) / tan(FOV / 2);
         wall->wall_height = (TILE_SIZE / wall->corrected_dist) * wall->distance_to_plane;
-        
-        // Calculate wall top and bottom
         wall->wall_start = (WIN_HEIGHT / 2) - (wall->wall_height / 2);
         wall->wall_end = (WIN_HEIGHT / 2) + (wall->wall_height / 2);
-        
-        // Draw the textured wall (no clamping here - draw_wall handles it)
         draw_wall(data, i, wall->wall_start, wall->wall_end);
-        
         i++;
     }
 }

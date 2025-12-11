@@ -34,7 +34,7 @@ void	map_valid(char **map, t_data *data)
 		j = 0;
 		while (map[i][j])
 		{
-			check_map_valid(map, data, i, j);
+			check_valid_character(map[i][j], data, map);
 			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E'
 				|| map[i][j] == 'W')
 			{
@@ -104,6 +104,5 @@ void	define_textures(t_data *data, int fd, int *offset)
 		printf("Error\nInvalid texture or color definition\n");
 		free_all_and_print_error(data, NULL, line);
 	}
-	// parse_xbm(data);
 	close(fd);
 }

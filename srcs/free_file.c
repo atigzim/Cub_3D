@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   free_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: atigzim <atigzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:08:20 by atigzim           #+#    #+#             */
-/*   Updated: 2025/12/10 21:07:59 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/11 18:44:05 by atigzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub_3d.h"
+
+void	free_texture(t_data *data)
+{
+	if (data->mlx)
+	{
+		if (data->tex_no.img_ptr)
+			mlx_destroy_image(data->mlx, data->tex_no.img_ptr);
+		if (data->tex_so.img_ptr)
+			mlx_destroy_image(data->mlx, data->tex_so.img_ptr);
+		if (data->tex_we.img_ptr)
+			mlx_destroy_image(data->mlx, data->tex_we.img_ptr);
+		if (data->tex_ea.img_ptr)
+			mlx_destroy_image(data->mlx, data->tex_ea.img_ptr);
+	}
+}
 
 void	free_data(t_data *data)
 {
@@ -25,12 +40,6 @@ void	free_data(t_data *data)
 	if (data->textures.east)
 		free(data->textures.east);
 	free_texture(data);
-	if (data->buffer.img_ptr)
-		mlx_destroy_image(data->mlx, data->buffer.img_ptr);
-	if (data->window)
-		mlx_destroy_window(data->mlx, data->window);
-	if (data->mlx)
-		mlx_destroy_display(data->mlx);
 	free(data);
 }
 

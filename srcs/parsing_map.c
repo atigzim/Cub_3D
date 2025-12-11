@@ -6,7 +6,7 @@
 /*   By: atigzim <atigzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:19:20 by atigzim           #+#    #+#             */
-/*   Updated: 2025/11/28 16:17:25 by atigzim          ###   ########.fr       */
+/*   Updated: 2025/12/11 18:50:37 by atigzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	check_map_valid(char **map, t_data *data, int i, int j)
 		printf("Error\nMap is not closed\n");
 		free_all_and_print_error(data, map, NULL);
 	}
-	if (map[i][j] != 32)
+	if (map[i][j] != ' ')
 		check_valid_character(map[i][j], data, map);
 }
 
@@ -37,7 +37,6 @@ void	player_position(t_data *data, int i, int j)
 	data->player_y = i;
 	data->player_dir = data->map[i][j];
 }
-
 
 bool	search_map(char *line)
 {
@@ -56,9 +55,10 @@ bool	search_map(char *line)
 	}
 	return (false);
 }
+
 void	one_line_map(t_data *data, int fd, char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	data->map = malloc(sizeof(char *) * (data->map_height + 1));
@@ -75,8 +75,8 @@ void	one_line_map(t_data *data, int fd, char *line)
 		line = get_next_line(fd);
 		i++;
 	}
-	if(line)
-		exit(printf("Error\nToo many map lines\n"));
+	if (line)
+		free(line);
 	data->map[i] = NULL;
 }
 

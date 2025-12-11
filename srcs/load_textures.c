@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   load_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: atigzim <atigzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 13:02:42 by abhmidat          #+#    #+#             */
-/*   Updated: 2025/12/10 21:05:24 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/11 18:27:30 by atigzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub_3d.h"
-
-void free_texture(t_data *data)
-{
-	if (data->tex_no.img_ptr)
-		mlx_destroy_image(data->mlx, data->tex_no.img_ptr);
-	if (data->tex_so.img_ptr)
-		mlx_destroy_image(data->mlx, data->tex_so.img_ptr);
-	if (data->tex_we.img_ptr)
-		mlx_destroy_image(data->mlx, data->tex_we.img_ptr);
-	if (data->tex_ea.img_ptr)
-		mlx_destroy_image(data->mlx, data->tex_ea.img_ptr);
-}
 
 int texture_get_pixel(t_image *tex, int x, int y)
 {
@@ -52,6 +40,8 @@ int load_texture(t_data *data, t_image *tex, char *path)
     if (!tex->pixel_data)
     {
         write(2, "Error\nFailed to get texture address\n", 37);
+        mlx_destroy_image(data->mlx, tex->img_ptr);
+        tex->img_ptr = NULL;
         return (1);
     }
 
@@ -61,16 +51,38 @@ int load_texture(t_data *data, t_image *tex, char *path)
 int set_textures(t_data *data)
 {
     if (load_texture(data, &data->tex_no, data->textures.north))
+    {
+        if (data->tex_no.img_ptr)
+            mlx_destroy_image(data->mlx, data->tex_no.img_ptr);
         return (1);
+    }
 
     if (load_texture(data, &data->tex_so, data->textures.south))
+    {
+        if (data->tex_so.img_ptr)
+            mlx_destroy_image(data->mlx, data->tex_so.img_ptr);
+        mlx_destroy_image(data->mlx, data->tex_no.img_ptr);
         return (1);
+    }
 
     if (load_texture(data, &data->tex_we, data->textures.west))
+    {
+        if (data->tex_we.img_ptr)
+            mlx_destroy_image(data->mlx, data->tex_we.img_ptr);
+        mlx_destroy_image(data->mlx, data->tex_so.img_ptr);
+        mlx_destroy_image(data->mlx, data->tex_no.img_ptr);
         return (1);
+    }
 
     if (load_texture(data, &data->tex_ea, data->textures.east))
+    {
+        if (data->tex_ea.img_ptr)
+            mlx_destroy_image(data->mlx, data->tex_ea.img_ptr);
+        mlx_destroy_image(data->mlx, data->tex_we.img_ptr);
+        mlx_destroy_image(data->mlx, data->tex_so.img_ptr);
+        mlx_destroy_image(data->mlx, data->tex_no.img_ptr);
         return (1);
+    }
 
     return (0);
 }

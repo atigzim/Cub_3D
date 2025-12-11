@@ -3,14 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: atigzim <atigzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 12:08:24 by atigzim           #+#    #+#             */
-/*   Updated: 2025/12/10 22:13:36 by marvin           ###   ########.fr       */
+/*   Updated: 2025/12/11 18:29:25 by atigzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cub_3d.h"
+
+void free_mlx(t_data *data)
+{
+	if (data->mlx)
+	{
+		if (data->tex_no.img_ptr)
+		{
+			mlx_destroy_image(data->mlx, data->tex_no.img_ptr);
+			data->tex_no.img_ptr = NULL;
+		}
+		if (data->tex_so.img_ptr)
+		{
+			mlx_destroy_image(data->mlx, data->tex_so.img_ptr);
+			data->tex_so.img_ptr = NULL;
+		}
+		if (data->tex_we.img_ptr)
+		{
+			mlx_destroy_image(data->mlx, data->tex_we.img_ptr);
+			data->tex_we.img_ptr = NULL;
+		}
+		if (data->tex_ea.img_ptr)
+		{
+			mlx_destroy_image(data->mlx, data->tex_ea.img_ptr);
+			data->tex_ea.img_ptr = NULL;
+		}
+		if (data->buffer.img_ptr)
+		{
+			mlx_destroy_image(data->mlx, data->buffer.img_ptr);
+			data->buffer.img_ptr = NULL;
+		}
+		if (data->window)
+		{
+			mlx_destroy_window(data->mlx, data->window);
+			data->window = NULL;
+		}
+		mlx_destroy_display(data->mlx);
+		data->mlx = NULL;
+	}
+}
 
 int	key_press(int keycode, void *param)
 {
@@ -19,6 +58,7 @@ int	key_press(int keycode, void *param)
 	data = (t_data *)param;
 	if (keycode == ESC)
 	{
+		free_mlx(data);
 		if(data)
 			free_data(data);
 		exit(0);
@@ -33,11 +73,13 @@ int	sed(void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (data)
+	free_mlx(data);
+	if(data)
 		free_data(data);
 	exit(0);
 	return (0);
 }
+
 
 int	game_loop(t_data *data)
 {

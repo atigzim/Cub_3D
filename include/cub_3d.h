@@ -162,15 +162,11 @@ void map_valid(char **map, t_data *data);
 void add_map_line(t_data *data, char *filename);
 bool check_wall(t_data *data, int lne, int i, int j);
 bool check_out(char **map, int i, int j);
-void check_map_valid(char **map, t_data *data, int i, int j);
 void check_valid_character(char c, t_data *data, char **map);
 void player_position(t_data *data, int i, int j);
 void	pars_textures(char *line, t_data *data, int *offset);
 void	one_line_map(t_data *data, int fd, char *line);
-int rgb_to_hex(int r, int g, int b);
 void my_mlx_pixel_put(t_image *img, int x, int y, int color);
-void parse_xbm(t_data* data);
-bool xbm_valid(char *path_file);
 bool xpm_valid(char *path_file);
 void parse_xpm(t_data* data);
 void pars_main(t_data *data, char *filename);
@@ -180,7 +176,7 @@ void draw_block(t_image *img, int x, int y, int cool);
 void draw_all(t_data *data);
 int game_loop(t_data *data);
 int key_press(int keycode, void *param);
-int sed(void *param);
+int	sed(void *param);
 //cast rays
 void cast_one_ray(t_data *data, int ray_index);
 void cast_all_rays(t_data *data);
@@ -197,7 +193,6 @@ void turn_right(t_data *data);
 //free all
 void free_data(t_data *data);
 void free_map(char **map);
-void free_texture(t_data *data);
 //textures
 int load_texture(t_data *data, t_image *tex, char *path);
 int texture_get_pixel(t_image *tex, int x, int y);

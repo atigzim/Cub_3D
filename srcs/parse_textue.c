@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textue.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: atigzim <atigzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:42:11 by atigzim           #+#    #+#             */
-/*   Updated: 2025/12/10 20:46:44 by marvin           ###   ########.fr       */
+/*   Updated: 2025/11/28 14:55:29 by atigzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ bool parse_color_textue(char *line)
 	{
 		if(line[i] == ',')
 			flag++;
-		if(!ft_isdigit(line[i]) && line[i] != ',' && !ft_isspace(line[i]) && i != 0)
-			return (false);
 		i++;
 	}
 	if (flag != 2)

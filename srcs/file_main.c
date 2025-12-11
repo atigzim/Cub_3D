@@ -1,10 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_main.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: atigzim <atigzim@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/11 12:45:48 by atigzim           #+#    #+#             */
+/*   Updated: 2025/12/11 18:43:21 by atigzim          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub_3d.h"
 
-void pars_main(t_data *data, char *av)
+void	pars_main(t_data *data, char *av)
 {
 	parse_cub(av, data);
 	data->mlx = mlx_init();
-	if(!data->mlx)
+	if (!data->mlx)
+	{
+		free_data(data);
+		exit(1);
+	}
+	data->window = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
+	if (!data->window)
 	{
 		free_data(data);
 		exit(1);
@@ -12,12 +30,6 @@ void pars_main(t_data *data, char *av)
 	if (set_textures(data))
 	{
 		write(2, "Error\nTexture loading failed\n", 30);
-		exit(1);
-	}
-	data->window = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
-	if (!data->window)
-	{
-		free_data(data);
 		exit(1);
 	}
 	init_buffer(data);
@@ -29,9 +41,9 @@ void pars_main(t_data *data, char *av)
 	mlx_loop(data->mlx);
 }
 
-bool xpm_valid(char *path_file)
+bool	xpm_valid(char *path_file)
 {
-	int len;
+	int	len;
 
 	len = ft_strlen(path_file);
 	if (len < 4)
@@ -43,9 +55,8 @@ bool xpm_valid(char *path_file)
 	return (true);
 }
 
-void parse_xpm(t_data* data)
+void	parse_xpm(t_data *data)
 {
-	
 	if (!xpm_valid(data->textures.east) || !xpm_valid(data->textures.west)
 		|| !xpm_valid(data->textures.north) || !xpm_valid(data->textures.south))
 	{

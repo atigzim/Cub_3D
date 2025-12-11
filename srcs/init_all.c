@@ -31,8 +31,8 @@ void	my_mlx_pixel_put(t_image *img, int x, int y, int color)
 
 void	init_player(t_data *data)
 {
-	data->player.move_speed = 4;
-	data->player.rotation_speed = 0.10;
+	data->player.move_speed = 3;
+	data->player.rotation_speed = 0.09;
 	data->player.x = data->player_x * TILE_SIZE + (TILE_SIZE / 2);
 	data->player.y = data->player_y * TILE_SIZE + (TILE_SIZE / 2);
 	if (data->player_dir == 'N')

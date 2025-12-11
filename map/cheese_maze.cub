@@ -1,10 +1,10 @@
-NO textures/dark/matrix.xpm
-SO textures/dark/face2.xpm
-WE textures/dark/matrix.xpm
-EA textures/dark/matrix.xpm
+NO textures/simonkraft/wet_sponge.xpm
+SO textures/simonkraft/wet_sponge.xpm
+WE textures/simonkraft/wet_sponge.xpm
+EA textures/simonkraft/wet_sponge.xpm
 
-C 10,10,10
-F 10,10,10
+F 164,169,20
+C 153,204,255
 
 111111111111111111111
 101000001000000000001

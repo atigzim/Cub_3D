@@ -6,7 +6,7 @@
 /*   By: atigzim <atigzim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 14:53:07 by atigzim           #+#    #+#             */
-/*   Updated: 2025/11/28 16:09:35 by atigzim          ###   ########.fr       */
+/*   Updated: 2025/12/11 18:26:06 by atigzim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	loop_heigth(char *r_l_map, t_data *data, int *len, int fd)
 			data->map_width = ft_strlen(r_l_map) - 1;
 		free(r_l_map);
 		r_l_map = get_next_line(fd);
-		
 	}
+	if (r_l_map)
+		free(r_l_map);
 }
 
 int	len_height(char *filename, t_data *data, int *offset)

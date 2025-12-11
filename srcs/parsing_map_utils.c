@@ -79,9 +79,8 @@ bool	check_out(char **map, int i, int j)
 
 void	check_valid_character(char c, t_data *data, char **map)
 {
-	if (c != '0' && c != '1' && c != 'N' && c != 'S' && c != 'E' && c != 'W' && c!= ' ')
+	if (c != '0' && c != '1' && c != 'N' && c != 'S' && c != 'E' && c != 'W')
 	{
-		printf("%d\n", c);
 		printf("Error\nInvalid character in map\n");
 		free_all_and_print_error(data, map, NULL);
 	}
